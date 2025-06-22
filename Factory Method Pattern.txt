@@ -1,0 +1,69 @@
+public class DocumentCreator {
+
+    interface Document {
+        void open();
+    }
+
+    static class WordPage implements Document {
+        public void open() {
+            System.out.println("Word Document is now open and ready to type!");
+        }
+    }
+
+    static class PdfPage implements Document {
+        public void open() {
+            System.out.println("PDF Document is now open for viewing.");
+        }
+    }
+
+    static class ExcelSheet implements Document {
+        public void open() {
+            System.out.println("Excel Spreadsheet is now open for editing numbers.");
+        }
+    }
+
+    abstract static class DocumentMaker {
+        public abstract Document create();
+    }
+
+    static class WordMaker extends DocumentMaker {
+        public Document create() {
+            return new WordPage();
+        }
+    }
+
+    static class PdfMaker extends DocumentMaker {
+        public Document create() {
+            return new PdfPage();
+        }
+    }
+
+    static class ExcelMaker extends DocumentMaker {
+        public Document create() {
+            return new ExcelSheet();
+        }
+    }
+
+    public static void main(String[] args) {
+        DocumentMaker maker;
+
+        maker = new WordMaker();
+        Document word = maker.create();
+        word.open();
+
+        maker = new PdfMaker();
+        Document pdf = maker.create();
+        pdf.open();
+
+
+        maker = new ExcelMaker();
+        Document excel = maker.create();
+        excel.open();
+    }
+}
+
+OUTPUT:
+
+Word Document is now open and ready to type!
+PDF Document is now open for viewing.
+Excel Spreadsheet is now open for editing numbers.
