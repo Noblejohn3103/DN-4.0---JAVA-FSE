@@ -1,0 +1,51 @@
+Add dependency:
+<dependencies>
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter</artifactId>
+        <version>5.10.0</version>
+        <scope>test</scope>
+    </dependency>
+</dependencies>
+
+
+Create class to test:
+public class Calculator {
+    public int add(int a, int b) {
+        return a + b;
+    }
+}
+
+
+Write a JUnit 5 Test case:
+// File: CalculatorTest.java
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class CalculatorTest {
+
+    @Test
+    void testAdd() {
+        Calculator calc = new Calculator();
+        int result = calc.add(3, 5);
+        assertEquals(8, result);
+    }
+}
+
+
+Run Test:
+mvn test
+
+
+OUTPUT:
+
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running CalculatorTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO] -------------------------------------------------------
+[INFO] BUILD SUCCESS
+
+
+

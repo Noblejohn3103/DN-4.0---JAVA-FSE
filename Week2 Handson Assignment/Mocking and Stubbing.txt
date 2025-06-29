@@ -1,0 +1,48 @@
+// File: UserRepository.java
+public interface UserRepository {
+    String findUserNameById(int id);
+}
+
+// File: UserService.java
+public class UserService {
+    private final UserRepository repo;
+
+    public UserService(UserRepository repo) {
+        this.repo = repo;
+    }
+
+    public String getUserGreeting(int id) {
+        String name = repo.findUserNameById(id);
+        return "Hello, " + name;
+    }
+}
+
+
+// File: UserServiceTest.java
+import org.junit.jupiter.api.Test;
+import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class UserServiceTest {
+
+    @Test
+    void testGetUserGreeting() {
+        // Arrange
+        UserRepository mockRepo = mock(UserRepository.class);
+        when(mockRepo.findUserNameById(1)).thenReturn("Alice");
+
+        UserService service = new UserService(mockRepo);
+
+        // Act
+        String result = service.getUserGreeting(1);
+
+        // Assert
+        assertEquals("Hello, Alice", result);
+        verify(mockRepo).findUserNameById(1); // interaction verification
+    }
+}
+
+
+OUTPUT:
+Test passed: "Hello, Alice"
+Mock method was called as expected.

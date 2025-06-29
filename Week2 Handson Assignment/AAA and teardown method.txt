@@ -1,0 +1,60 @@
+// File: Calculator.java
+public class Calculator {
+    public int multiply(int a, int b) {
+        return a * b;
+    }
+
+    public void reset() {
+        // Imagine reset clears internal state (stub for example)
+    }
+}
+
+
+
+// File: CalculatorTest.java
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class CalculatorTest {
+
+    private Calculator calculator;
+
+    @BeforeEach
+    void setUp() {
+        // Arrange: Common setup for each test
+        calculator = new Calculator();
+        System.out.println("Setup before test");
+    }
+
+    @AfterEach
+    void tearDown() {
+        // Cleanup or reset state
+        calculator.reset();
+        System.out.println("Teardown after test");
+    }
+
+    @Test
+    void testMultiplyPositiveNumbers() {
+        // Act
+        int result = calculator.multiply(4, 5);
+
+        // Assert
+        assertEquals(20, result, "Multiplication should return 20");
+    }
+
+    @Test
+    void testMultiplyByZero() {
+        int result = calculator.multiply(8, 0);
+        assertEquals(0, result, "Multiplying by zero should return zero");
+    }
+}
+
+
+OUTPUT:
+
+Setup before test
+Teardown after test
+Setup before test
+Teardown after test
+[INFO] Tests run: 2, Failures: 0, Errors: 0

@@ -1,0 +1,62 @@
+1. Question: Write a stored procedure ProcessMonthlyInterest that calculates and updates the balance of all savings accounts by applying an interest rate of 1% to the current balance.
+
+SOLUTION :
+
+CREATE OR REPLACE PROCEDURE ProcessMonthlyInterest IS
+BEGIN
+  UPDATE Accounts
+  SET Balance = Balance + (Balance * 0.01)
+  WHERE AccountType = 'SAVINGS';
+
+  COMMIT;
+END;
+
+2. Question: Write a stored procedure UpdateEmployeeBonus that updates the salary of employees in a given department by adding a bonus percentage passed as a parameter.
+
+SOLUTION :
+
+CREATE OR REPLACE PROCEDURE UpdateEmployeeBonus (
+  p_DepartmentID IN NUMBER,
+  p_BonusPercent IN NUMBER
+) IS
+BEGIN
+  UPDATE Employees
+  SET Salary = Salary + (Salary * (p_BonusPercent / 100))
+  WHERE DepartmentID = p_DepartmentID;
+
+  COMMIT;
+END;
+
+3. Question: Write a stored procedure TransferFunds that transfers a specified amount from one account to another, checking that the source account has sufficient balance before making the transfer.
+
+SOLUTION :
+
+CREATE OR REPLACE PROCEDURE TransferFunds (
+  p_FromAccountID IN NUMBER,
+  p_ToAccountID   IN NUMBER,
+  p_Amount        IN NUMBER
+) IS
+  v_Balance NUMBER;
+BEGIN
+  
+  SELECT Balance INTO v_Balance
+  FROM Accounts
+  WHERE AccountID = p_FromAccountID;
+
+  
+  IF v_Balance >= p_Amount THEN
+    -- Deduct from source
+    UPDATE Accounts
+    SET Balance = Balance - p_Amount
+    WHERE AccountID = p_FromAccountID;
+
+    -- Add to destination
+    UPDATE Accounts
+    SET Balance = Balance + p_Amount
+    WHERE AccountID = p_ToAccountID;
+
+    COMMIT;
+  ELSE
+    RAISE_APPLICATION_ERROR(-20001, 'Insufficient balance in source account.');
+  END IF;
+END;

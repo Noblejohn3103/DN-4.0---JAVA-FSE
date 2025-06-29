@@ -1,0 +1,42 @@
+1. Question: Write a PL/SQL block that loops through all customers, checks their age, and if they are above 60, apply a 1% discount to their current loan interest rates.
+
+SOLUTION :
+
+BEGIN
+  FOR cust IN (SELECT CustomerID FROM Customers WHERE Age > 60) LOOP
+    UPDATE Loans
+    SET InterestRate = InterestRate - 1
+    WHERE CustomerID = cust.CustomerID;
+  END LOOP;
+  COMMIT;
+END;
+
+
+2. Question: Write a PL/SQL block that iterates through all customers and sets a flag IsVIP to TRUE for those with a balance over $10,000.
+
+SOLUTION :
+
+BEGIN
+  FOR cust IN (SELECT CustomerID FROM Customers WHERE Balance > 10000) LOOP
+    UPDATE Customers
+    SET IsVIP = 'Y'
+    WHERE CustomerID = cust.CustomerID;
+  END LOOP;
+  COMMIT;
+END;
+
+
+3. Question: Write a PL/SQL block that fetches all loans due in the next 30 days and prints a reminder message for each customer.
+
+SOLUTION :
+
+BEGIN
+  FOR loan IN (
+    SELECT l.CustomerID, c.Name, l.DueDate
+    FROM Loans l
+    JOIN Customers c ON l.CustomerID = c.CustomerID
+    WHERE l.DueDate <= SYSDATE + 30
+  ) LOOP
+    DBMS_OUTPUT.PUT_LINE('Reminder: Loan for ' || loan.Name || ' is due on ' || TO_CHAR(loan.DueDate, 'DD-MON-YYYY'));
+  END LOOP;
+END;

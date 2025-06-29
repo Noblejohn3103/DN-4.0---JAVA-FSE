@@ -1,0 +1,42 @@
+
+public class Calculator {
+    public int add(int a, int b) {
+        return a + b;
+    }
+
+    public int divide(int a, int b) {
+        return a / b;
+    }
+}
+
+
+// File: CalculatorTest.java
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class CalculatorTest {
+
+    Calculator calc = new Calculator();
+
+    @Test
+    void testAdd() {
+        assertEquals(10, calc.add(7, 3), "Addition should return correct sum");
+        assertNotEquals(9, calc.add(5, 5), "Should not be equal to 9");
+    }
+
+    @Test
+    void testDivide() {
+        assertEquals(2, calc.divide(10, 5));
+    }
+
+    @Test
+    void testDivideByZeroThrowsException() {
+        assertThrows(ArithmeticException.class, () -> calc.divide(10, 0));
+    }
+}
+
+
+
+OUTPUT:
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
